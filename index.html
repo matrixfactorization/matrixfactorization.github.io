@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parallel Alternating Least Squares for Large-scale Recommendation</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><h3 id="summary">SUMMARY</h3>
+
+<p>In this project, we plan to implement the parallel alternating least squares algorithm for large-scale recommendation, for which the description of the algorithm is described in this <a href="http://www.grappa.univ-lille3.fr/~mary/cours/stats/centrale/reco/paper/MatrixFactorizationALS.pdf">paper</a>.</p>
+
+
+
+<h3 id="background">BACKGROUND</h3>
+
+<p>Usually, for a recommendation system, it tries to give the prediction for the rating of an item for a user. The method given it the <a href="http://www.grappa.univ-lille3.fr/~mary/cours/stats/centrale/reco/paper/MatrixFactorizationALS.pdf">paper</a> tries to solve the problem using the inner product of the embedding vectors of a given user and item. That is for each user it’s associated with a vector <script id="MathJax-Element-1513" type="math/tex">\mathbf{u}_i</script>; for each item it’s associated with a vector <script id="MathJax-Element-1514" type="math/tex">\mathbf{m}_i</script> and the rating of user <script id="MathJax-Element-1515" type="math/tex">\mathbf{u}_i</script> with item <script id="MathJax-Element-1516" type="math/tex">\mathbf{m}_i</script> is given by the dot product of the two vectors. Here the loss function is defined as <script id="MathJax-Element-1517" type="math/tex">\frac{1}{n}\Sigma (r_{ij} - \mathbf{u}_i \cdot \mathbf{m}_j)</script>. And we will try to get the user embedding matrix and item embedding matrix to minimize the loss function. <br>
+Alternative-least-square can be used to optimize it. For every iteration, <script id="MathJax-Element-1518" type="math/tex">U</script> is fixed and do updating on <script id="MathJax-Element-1519" type="math/tex">M</script> to minimize the loss function and then we fix <script id="MathJax-Element-1520" type="math/tex">M</script> and do updating on <script id="MathJax-Element-1521" type="math/tex">U</script>. <br>
+The equation for updating <script id="MathJax-Element-1522" type="math/tex">U</script> is  <br>
+<script id="MathJax-Element-1523" type="math/tex; mode=display">\mathbf{u}_i = A_i^{-1}V_i \\
+A_i=M_{I_i^U}M_{I_i^U}^T + \lambda n_{u_i}E \\ V_i=M_{I_i^U}R^T(i,I_i^U)</script>  and Here <script id="MathJax-Element-1524" type="math/tex">E</script> is the identity matrix and <script id="MathJax-Element-1525" type="math/tex">M_{I_i^U}</script> denotes the sub-matrix of <script id="MathJax-Element-1526" type="math/tex">M</script> where the columns <script id="MathJax-Element-1527" type="math/tex">j\in I_{i}^U</script> are selected and <script id="MathJax-Element-1528" type="math/tex">R(i,I_i^U)</script> is the row vector where columns <script id="MathJax-Element-1529" type="math/tex">j\in I_i^U</script> of the <script id="MathJax-Element-1530" type="math/tex">i</script>-th row of R are selected. To update <script id="MathJax-Element-1531" type="math/tex">M</script>, it’s similar:  <br>
+<script id="MathJax-Element-1532" type="math/tex; mode=display">\mathbf{m}_j = A_j^{-1}V_j</script></p>
+
+<h3 id="challenge">CHALLENGE</h3>
+
+<ul>
+<li>How to make optimization process parallel? Although one of the method is proposed in the paper written in MATLAB, we decide to get a faster version.</li>
+<li>How to calculate the inverse of a matrix faster?</li>
+<li>How to make use of heterogeneous architecture to accelerate the algorithm? We plan to make use of both CPU and GPU to accelerate the algorithm.</li>
+</ul>
+
+<h3 id="resources">RESOURCES</h3>
+
+<ul>
+<li>We reference to the paper: <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0CCUQFjAA&amp;url=http%3A%2F%2Fwww.grappa.univ-lille3.fr%2F~mary%2Fcours%2Fstats%2Fcentrale%2Freco%2Fpaper%2FMatrixFactorizationALS.pdf&amp;ei=vrIcVZ3HO4awyASZ34CoCQ&amp;usg=AFQjCNG2q-sgOEOzAR0qpNSlnJAViSGvsg&amp;sig2=Yw1LWcZQugwNw8UWApTYmA">Zhou Y, Wilkinson D, Schreiber R, et al. Large-scale parallel collaborative filtering for the netflix prize[M]//Algorithmic Aspects in Information and Management. Springer Berlin Heidelberg, 2008: 337-348.</a></li>
+<li>We will implement the algorithm on a GPU cluster and write the code from scratch using MPI, OpenMP, ISCP and Cuda. </li>
+</ul>
+
+<h3 id="goals-and-plan">GOALS AND PLAN</h3>
+
+<h3 id="platform-choice">PLATFORM CHOICE</h3>
+
+<h3 id="platform-choice">PLATFORM CHOICE</h3></div></body>
+</html>
